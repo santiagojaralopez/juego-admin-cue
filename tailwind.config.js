@@ -11,7 +11,8 @@ module.exports = withMT({
       ...theme('colors'),
       'cue-blue': 'rgb(0, 18, 63)',
       'cue-red': 'rgb(180, 35, 37)',
-      'cue-black': 'rgb(31, 30, 28)'
+      'cue-black': 'rgb(31, 30, 28)',
+      'cue-grey': '#F0F0F0'
     }),
     textColor: {
       'cue-blue': 'rgb(0, 18, 63)',
