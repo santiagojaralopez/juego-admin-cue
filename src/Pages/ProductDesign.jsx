@@ -1,8 +1,12 @@
+import { useContext, useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+
+import { BudgetContext } from "../Context/BudgetContext"
+import { Budget } from "../Components/Budget"
+
 import { Card, Button } from "@material-tailwind/react"
-import { NavLink } from "react-router-dom"
 import Swal from "sweetalert2"
 
-import { Budget } from "../Components/Budget"
 
 
 const obligatory = [
@@ -10,25 +14,29 @@ const obligatory = [
     id: '001',
     name: 'Harina',
     price: 50,
-    image: 'https://cdn-icons-png.flaticon.com/128/992/992730.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/992/992730.png',
+    selected: false
   },
   {
     id: '002',
     name: 'Huevos',
     price: 100,
-    image: 'https://cdn-icons-png.flaticon.com/128/3142/3142726.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/3142/3142726.png',
+    selected: false
   },
   {
     id: '003',
     name: 'Leche',
     price: 200,
-    image: 'https://cdn-icons-png.flaticon.com/128/5125/5125422.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/5125/5125422.png',
+    selected: false
   },
   {
     id: '004',
-    name: 'Levadura',
+    name: 'Polvo de Hornear',
     price: 50,
-    image: 'https://cdn-icons-png.flaticon.com/128/3348/3348061.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/3348/3348061.png',
+    selected: false
   }
 ]
 
@@ -37,25 +45,29 @@ const optional = [
     id: '005',
     name: 'Crema de chocolate',
     price: 70,
-    image: 'https://cdn-icons-png.flaticon.com/128/3142/3142729.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/3142/3142729.png',
+    selected: false
   },
   {
     id: '006',
     name: 'Chips de chocolate',
     price: 80,
-    image: 'https://cdn-icons-png.flaticon.com/128/6823/6823969.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/6823/6823969.png',
+    selected: false
   },
   {
     id: '007',
     name: 'Chips de colores',
     price: 75,
-    image: 'https://cdn-icons-png.flaticon.com/128/761/761946.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/761/761946.png',
+    selected: false
   },
   {
     id: '008',
     name: 'Crema de vainilla',
     price: 80,
-    image: 'https://cdn-icons-png.flaticon.com/128/6451/6451556.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/6451/6451556.png',
+    selected: false
   }
 ]
 
@@ -64,19 +76,23 @@ const packages = [
     id: '009',
     name: 'Empaque biodegradable',
     price: 100,
-    image: 'https://cdn-icons-png.flaticon.com/128/3098/3098211.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/3098/3098211.png',
+    selected: false
   },
   {
     id: '010',
-    name: 'Empaque plastico',
+    name: 'Empaque plástico',
     price: 30,
-    image: 'https://cdn-icons-png.flaticon.com/128/6882/6882263.png'
+    image: 'https://cdn-icons-png.flaticon.com/128/3141/3141472.png',
+    selected: false
   }
 ]
 
+let cart = []
+
 const welcomeMessage = () => {
   Swal.fire({
-    title: 'Hola!',
+    title: '¡Hola!',
     text: "Tu misión es crear un cupcake. Pasarás por distintas etapas, así que recuerda administrar muy bien tu presupuesto.",
     icon: 'info',
     showCancelButton: false,
@@ -86,7 +102,7 @@ const welcomeMessage = () => {
     if (result.isConfirmed) {
       Swal.fire(
         'Diseño de producto',
-        'Esta es la primera etapa, acá debes diseñar tu cupcake. Cuentas con tres columnas: Materia prima, Personalización y Empaquetado. Recuerda que toda la materia prima es obligatoria. Puedes escoger todos los toppings o ninguno y solo un tipo de paquete. Adelante!',
+        'Esta es la primera etapa, acá debes diseñar tu cupcake. Cuentas con tres columnas para seleccionar el material a usar: Materia prima, Personalización y Empaquetado. Recuerda que toda la materia prima es obligatoria. Puedes escoger todas las opciones de personalización o ninguna, y solo un tipo de empaquetado. Además, debes tener en cuenta que hay costos de mano de obra y operación que se descontarán al final. Adelante!',
         'info'
       )
     }
@@ -94,16 +110,98 @@ const welcomeMessage = () => {
 }
 
 export const ProductDesign = () => {
+  const context = useContext(BudgetContext);
+  const navigate = useNavigate();
+
+  const [obligatoryItems, setObligatoryItems] = useState(obligatory);
+  const [optionalItems, setOptionalItems] = useState(optional);
+  const [packageItems, setPackageItems] = useState(packages);
+
+  useEffect(() => {
+    welcomeMessage();
+  }, []);
+
+  const setItemState = (itemId, setItems) => {
+    setItems(prevItems => {
+      return prevItems.map(item => {
+        if (item.id === itemId) {
+          return { ...item, selected: !item.selected };
+        }
+        return item;
+      });
+    });
+  };
+
+  const addToCart = newItem => {
+    const exists = cart.some(obj => obj.id === newItem.id);
+
+    if (exists) {
+      const index = cart.findIndex(obj => obj.id === newItem.id);
+      cart.splice(index, 1);
+      context.setBudget(context.budget + newItem.price);
+    } else {
+      cart.push(newItem);
+      context.setBudget(context.budget - newItem.price);
+    }
+  }
+
+  const checkCartItems = () => {
+    const allObligatoryItemsIncluded = obligatory.every(obligatoryItem =>
+      cart.some(cartItem => cartItem.id === obligatoryItem.id)
+    );
+  
+    const packageItemsCount = cart.filter(cartItem =>
+      packages.some(packageItem => packageItem.id === cartItem.id)
+    ).length;
+  
+    const isValidCart =
+      allObligatoryItemsIncluded && packageItemsCount === 1;
+  
+    if (isValidCart) {
+      const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+
+      Swal.fire({
+        title: '<strong>Proceso finalizado</strong>',
+        icon: 'success',
+        html:
+          `Costo total de productos seleccionados: $${totalPrice}<br>` +
+          'Costo de mano de obra: $350<br>Costos de operación (energía y agua): $100<br>' +
+          `Costo final de esta etapa: $${totalPrice+350+100}`,
+        showCloseButton: false,
+        showCancelButton: false,
+        focusConfirm: false,
+        confirmButtonText: 'Siguiente Etapa'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/distribution');
+        }
+      })
+
+      context.setBudget(context.budget - 450);
+    } else {
+      Swal.fire(
+        'Error',
+        'El producto no cumple con las especificaciones mínimas de calidad',
+        'error'
+      )
+    }
+  };
+
+  const handleItemClick = (item, itemId, setItems) => {
+    setItemState(itemId, setItems);
+    addToCart(item);
+  }
+
   return (
     <>
       <Budget />
-      <div className="flex flex-col items-center justify-center">
-        <div className="mt-5 flex items-center justify-center" onLoad={welcomeMessage}>
-          <div className="mb-10 p-5 flex rounded-3xl w-[95vw] h-[90%] gap-5 border-2 border-black">
-            <div className="w-1/3 border-r-2 flex flex-col gap-10 items-center">
+      <div className="my-5 flex flex-col items-center justify-center">
+        <div className="flex items-center justify-center">
+          <div className="mb-10 p-5 flex rounded-3xl w-[95vw] gap-5 border-2 border-black">
+            <div className="w-1/3 border-r-2 flex flex-col gap-6 items-center">
               <h2 className="text-xl font-cocogoose">Materia prima</h2>
-              {obligatory?.map(item => (
-                <Card key={item.id} className="w-[70%] p-5 flex flex-row gap-5">
+              {obligatoryItems?.map(item => (
+                <Card key={item.id} onClick={() => handleItemClick(item, item.id, setObligatoryItems)} className={`w-[70%] p-5 flex flex-row gap-5 hover:cursor-pointer ${item.selected ? 'bg-cue-grey' : ''}`}>
                   <figure className="h-[100px] flex ">
                     <img className="h-full w-auto" src={item.image} alt="Item Image" />
                   </figure>
@@ -114,10 +212,10 @@ export const ProductDesign = () => {
                 </Card>
               ))}
             </div>
-            <div className="w-1/3 flex flex-col gap-10 items-center">
+            <div className="w-1/3 flex flex-col gap-6 items-center">
               <h2 className="text-xl font-cocogoose">Personalización</h2>
-              {optional?.map(item => (
-                <Card key={item.id} className="w-[70%] p-5 flex flex-row gap-5">
+              {optionalItems?.map(item => (
+                <Card key={item.id} onClick={() => handleItemClick(item, item.id, setOptionalItems)} className={`w-[70%] p-5 flex flex-row gap-5 hover:cursor-pointer ${item.selected ? 'bg-cue-grey' : ''}`}>
                   <figure className="h-[100px] flex ">
                     <img className="h-full w-auto" src={item.image} alt="Item Image" />
                   </figure>
@@ -128,10 +226,10 @@ export const ProductDesign = () => {
                 </Card>
               ))}
             </div>
-            <div className="w-1/3 flex flex-col gap-10 items-center border-l-2">
+            <div className="w-1/3 flex flex-col gap-6 items-center border-l-2">
               <h2 className="text-xl font-cocogoose">Empaquetado</h2>
-              {packages?.map(item => (
-                <Card key={item.id} className="w-[70%] p-5 flex flex-row gap-5">
+              {packageItems?.map(item => (
+                <Card key={item.id} onClick={() => handleItemClick(item, item.id, setPackageItems)} className={`w-[70%] p-5 flex flex-row gap-5 hover:cursor-pointer ${item.selected ? 'bg-cue-grey' : ''}`}>
                   <figure className="h-[100px] flex ">
                     <img className="h-full w-auto" src={item.image} alt="Item Image" />
                   </figure>
@@ -144,8 +242,8 @@ export const ProductDesign = () => {
             </div>
           </div>
         </div>
-        <Button className="text-cue-white text-[25px] w-[25%]" color="green">
-          <NavLink to='/product-design'>Finalizar Proceso</NavLink>
+        <Button className="text-cue-white text-[25px] w-[25%]" color="green" onClick={checkCartItems}>
+          <p>Finalizar Proceso</p>
         </Button>
       </div>
     </>
