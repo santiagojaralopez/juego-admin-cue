@@ -4,6 +4,7 @@ import { ContextProvider } from '../../Context/Context'
 import { Home } from '../Home'
 import { ProductDesign } from '../ProductDesign'
 import { Distribution } from '../Distribution'
+import { Marketing } from '../Marketing'
 
 import './App.css'
 
@@ -13,6 +14,7 @@ const AppRoutes = () => {
     { path: '/', element: <Home /> },
     { path: '/product-design', element: <ProductDesign /> },
     { path: '/distribution', element: <Distribution /> },
+    { path: '/marketing', element: <Marketing /> },
   ])
 
   return routes
