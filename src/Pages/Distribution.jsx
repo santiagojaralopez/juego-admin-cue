@@ -113,7 +113,7 @@ export const Distribution = () => {
         confirmButtonText: 'Siguiente Etapa'
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/distribution');
+          navigate('/marketing');
         }
       });
     } else {
