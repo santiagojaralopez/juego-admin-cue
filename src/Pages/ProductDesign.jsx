@@ -1,13 +1,11 @@
 import { useContext, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { BudgetContext } from "../Context/BudgetContext"
+import { Context } from "../Context/Context"
 import { Budget } from "../Components/Budget"
 
 import { Card, Button } from "@material-tailwind/react"
 import Swal from "sweetalert2"
-
-
 
 const obligatory = [
   {
@@ -88,8 +86,6 @@ const packages = [
   }
 ]
 
-let cart = []
-
 const welcomeMessage = () => {
   Swal.fire({
     title: '¡Hola!',
@@ -110,7 +106,7 @@ const welcomeMessage = () => {
 }
 
 export const ProductDesign = () => {
-  const context = useContext(BudgetContext);
+  const context = useContext(Context);
   const navigate = useNavigate();
 
   const [obligatoryItems, setObligatoryItems] = useState(obligatory);
@@ -133,24 +129,24 @@ export const ProductDesign = () => {
   };
 
   const addToCart = newItem => {
-    const exists = cart.some(obj => obj.id === newItem.id);
+    const exists = context.cart.some(obj => obj.id === newItem.id);
 
     if (exists) {
-      const index = cart.findIndex(obj => obj.id === newItem.id);
-      cart.splice(index, 1);
+      const index = context.cart.findIndex(obj => obj.id === newItem.id);
+      context.cart.splice(index, 1);
       context.setBudget(context.budget + newItem.price);
     } else {
-      cart.push(newItem);
+      context.cart.push(newItem);
       context.setBudget(context.budget - newItem.price);
     }
   }
 
   const checkCartItems = () => {
     const allObligatoryItemsIncluded = obligatory.every(obligatoryItem =>
-      cart.some(cartItem => cartItem.id === obligatoryItem.id)
+      context.cart.some(cartItem => cartItem.id === obligatoryItem.id)
     );
   
-    const packageItemsCount = cart.filter(cartItem =>
+    const packageItemsCount = context.cart.filter(cartItem =>
       packages.some(packageItem => packageItem.id === cartItem.id)
     ).length;
   
@@ -158,7 +154,7 @@ export const ProductDesign = () => {
       allObligatoryItemsIncluded && packageItemsCount === 1;
   
     if (isValidCart) {
-      const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+      const totalPrice = context.cart.reduce((sum, item) => sum + item.price, 0);
 
       Swal.fire({
         title: '<strong>Proceso finalizado</strong>',
@@ -166,7 +162,7 @@ export const ProductDesign = () => {
         html:
           `Costo total de productos seleccionados: $${totalPrice}<br>` +
           'Costo de mano de obra: $350<br>Costos de operación (energía y agua): $100<br>' +
-          `Costo final de esta etapa: $${totalPrice+350+100}`,
+          `Costo final de esta etapa: $${totalPrice+450}`,
         showCloseButton: false,
         showCancelButton: false,
         focusConfirm: false,
@@ -243,7 +239,7 @@ export const ProductDesign = () => {
           </div>
         </div>
         <Button className="text-cue-white text-[25px] w-[25%]" color="green" onClick={checkCartItems}>
-          <p>Finalizar Proceso</p>
+          <p className="font-cocogoose">Finalizar Proceso</p>
         </Button>
       </div>
     </>
