@@ -5,6 +5,7 @@ import { Home } from '../Home'
 import { ProductDesign } from '../ProductDesign'
 import { Distribution } from '../Distribution'
 import { Marketing } from '../Marketing'
+import { Costs } from '../Costs'
 
 import './App.css'
 
@@ -15,6 +16,7 @@ const AppRoutes = () => {
     { path: '/product-design', element: <ProductDesign /> },
     { path: '/distribution', element: <Distribution /> },
     { path: '/marketing', element: <Marketing /> },
+    { path: '/costs', element: <Costs /> },
   ])
 
   return routes
