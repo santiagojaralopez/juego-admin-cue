@@ -32,7 +32,7 @@ export const Costs = () => {
     if (percentage < 30 || percentage > 40) {
       Swal.fire({
         title: 'Hmmm...',
-        text: `Parece que no has logrado la utilidad esperada, ha sido del ${percentage}%`,
+        text: `Parece que no has logrado la utilidad esperada, ha sido del ${percentage}%. Intenta con un precio un poco más alto.`,
         icon: 'warning',
         allowOutsideClick: false
       });
