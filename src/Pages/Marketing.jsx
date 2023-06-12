@@ -77,7 +77,7 @@ export const Marketing = () => {
   const [marketingStrategiesItems, setMarketingStrategiesItems] = useState(marketingStrategies);
 
   useEffect(() => {
-    if (context.budget < 100) {
+    if (context.budget < 70) {
       outOfMoneyMessage();
     } else {
       welcomeMessage();

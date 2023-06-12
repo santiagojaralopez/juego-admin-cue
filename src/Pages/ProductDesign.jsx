@@ -93,14 +93,16 @@ const welcomeMessage = () => {
     icon: 'info',
     showCancelButton: false,
     confirmButtonColor: '#3085d6',
-    confirmButtonText: 'Siguiente'
+    confirmButtonText: 'Siguiente',
+    allowOutsideClick: false
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire(
-        'Diseño de producto',
-        'Esta es la primera etapa, acá debes diseñar tu cupcake. Cuentas con tres columnas para seleccionar el material a usar: Materia prima, Personalización y Empaquetado. Recuerda que toda la materia prima es obligatoria. Puedes escoger todas las opciones de personalización o ninguna, y solo un tipo de empaquetado. Además, debes tener en cuenta que hay costos de mano de obra y operación que se descontarán al final. Adelante!',
-        'info'
-      )
+      Swal.fire({
+        title: 'Diseño de producto',
+        text: 'Esta es la primera etapa, acá debes diseñar tu cupcake. Cuentas con tres columnas para seleccionar el material a usar: Materia prima, Personalización y Empaquetado. Recuerda que toda la materia prima es obligatoria. Puedes escoger todas las opciones de personalización o ninguna, y solo un tipo de empaquetado. Además, debes tener en cuenta que hay costos de mano de obra y operación que se descontarán al final. Adelante!',
+        icon: 'info',
+        allowOutsideClick: false
+      })
     }
   })
 }
@@ -166,7 +168,8 @@ export const ProductDesign = () => {
         showCloseButton: false,
         showCancelButton: false,
         focusConfirm: false,
-        confirmButtonText: 'Siguiente Etapa'
+        confirmButtonText: 'Siguiente Etapa',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
           navigate('/distribution');

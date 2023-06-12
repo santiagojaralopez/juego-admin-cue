@@ -35,11 +35,12 @@ const distributionMethods = [
 ]
 
 const welcomeMessage = () => {
-  Swal.fire(
-    'Distribución de producto',
-    'Esta es la segunda etapa, acá eliges cuál será el método de distribución para tus cupcakes. Solo podrás seleccionar una de las opciones. Recuerda administrar bien tu dinero, aún te falta una etapa.',
-    'info'
-  )
+  Swal.fire({
+    title: 'Distribución de producto',
+    text: 'Esta es la segunda etapa, acá eliges cuál será el método de distribución para tus cupcakes. Solo podrás seleccionar una de las opciones. Recuerda administrar bien tu dinero, aún te falta una etapa.',
+    icon: 'info',
+    allowOutsideClick: false
+  })
 }
 
 export const Distribution = () => {
@@ -110,7 +111,8 @@ export const Distribution = () => {
         showCloseButton: false,
         showCancelButton: false,
         focusConfirm: false,
-        confirmButtonText: 'Siguiente Etapa'
+        confirmButtonText: 'Siguiente Etapa',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
           navigate('/marketing');
