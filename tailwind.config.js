@@ -22,6 +22,7 @@ module.exports = withMT({
     },
     fontFamily: {
       cocogoose: ["Cocogoose"],
+      calibri: ['Calibri', 'sans-serif'],
     },
     extend: {},
   },
