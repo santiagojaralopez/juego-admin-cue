@@ -39,7 +39,7 @@ export const Costs = () => {
     } else {
       Swal.fire({
         title: '¡Felicitaciones!',
-        text: `Has logrado una utilidad del ${percentage}%`,
+        text: `Has logrado una utilidad del ${percentage}%, tus ganancias han sido $${utility}`,
         icon: 'success',
         confirmButtonText: 'Finalizar juego',
         allowOutsideClick: false
