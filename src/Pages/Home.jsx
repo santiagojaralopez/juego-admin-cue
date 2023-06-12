@@ -12,7 +12,7 @@ export const Home = () => {
         </div>
         <div className="flex flex-col text-start">
           <p className="text-cue-white font-calibri font-bold text-[50px]">CakeCraft</p>
-          <p className="text-cue-white font-calibri text-[40px]">Un juego del Programa de Administración de Empresas Dual</p>
+          <p className="text-cue-white font-calibri text-[35px]">Un juego del Programa de Administración de Empresas Dual</p>
         </div>
       </div>
       <NavLink to='/product-design'>
