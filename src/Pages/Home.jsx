@@ -16,7 +16,7 @@ export const Home = () => {
         </div>
       </div>
       <NavLink to='/product-design'>
-        <Button className="text-cue-white text-[30px]" color="green">Iniciar Juego</Button>
+        <Button className="text-cue-white font-calibri text-[30px]" color="green">Iniciar Juego</Button>
       </NavLink>
     </div>
   )
