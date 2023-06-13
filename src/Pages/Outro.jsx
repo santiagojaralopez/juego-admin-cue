@@ -34,7 +34,7 @@ export const Outro = () => {
         </div>
         <div className="flex flex-col text-start">
           <p className="text-cue-white font-calibri font-bold text-[50px]">Gracias por jugar</p>
-          <p className="text-cue-white font-calibri text-[25px]">Desarrollado con ❤️ por Santiago Jaramillo López del programa de Ingeniería de Software para el Programa de Administración de Empresas Dual</p>
+          <p className="text-cue-white font-calibri text-[25px]">Desarrollado con ❤️ por Santiago Jaramillo López, estudiante del programa de Ingeniería de Software para el Programa de Administración de Empresas Dual</p>
         </div>
       </div>
       <Button onClick={returnToStart} className="text-cue-white font-calibri text-[30px]" color="blue">Volver al inicio</Button>
