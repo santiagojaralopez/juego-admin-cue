@@ -54,7 +54,7 @@ const marketingStrategies = [
 
 const welcomeMessage = () => {
   Swal.fire({
-    title: 'Estratetgias de Marketing',
+    title: 'Estrategias de Marketing',
     text: 'Esta es la tercera etapa, acá eliges cuál o cuáles serán las estrategias de marketing para la venta de tus cupcakes. Podrás seleccionar una o dos de las opciones que se te presentan. Hazlo sabiamente.',
     icon: 'info',
     allowOutsideClick: false
