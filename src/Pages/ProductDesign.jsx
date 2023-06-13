@@ -220,7 +220,7 @@ export const ProductDesign = () => {
                   </figure>
                   <div className="flex flex-col items-center justify-center">
                     <p className="font-cocogoose">{item.name}</p>
-                    <p className="font-calibri">${item.price}</p>
+                    <p className="font-cocogoose">${item.price}</p>
                   </div>
                 </Card>
               ))}
