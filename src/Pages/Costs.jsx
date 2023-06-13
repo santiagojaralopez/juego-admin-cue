@@ -27,8 +27,6 @@ export const Costs = () => {
   const calculateUtility = (productionPrice) => {
     const utility = cupcakePrice - productionPrice;
     let minCost = productionPrice / (1 - 0.3);
-
-    alert(idk);
   
     if (cupcakePrice < minCost) {
       Swal.fire({
