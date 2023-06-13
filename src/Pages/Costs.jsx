@@ -12,7 +12,7 @@ let cupcakePrice = 0;
 const welcomeMessage = () => {
   Swal.fire({
     title: 'Valoración del Producto',
-    text: 'Esta es la etapa final, acá eliges cuál será el precio de venta de tu cupcake basado en los costos anteriores. La utilidad esperada es del 30% sobre el costo total.',
+    text: 'Esta es la etapa final, acá eliges cuál será el precio de venta de tu cupcake basado en los costos anteriores. La utilidad esperada es del 30% sobre el costo total. Recuerda que la fórmula para calcular el precio de venta es: costo de producción / (1 - porcentaje de rentabilidad esperado)',
     icon: 'info',
     allowOutsideClick: false
   })
@@ -26,10 +26,11 @@ export const Costs = () => {
 
   const calculateUtility = (productionPrice) => {
     const utility = cupcakePrice - productionPrice;
-    let percentage = (utility / productionPrice) * 100;
-    percentage = percentage.toFixed(2);
+    let minCost = productionPrice / (1 - 0.3);
+
+    alert(idk);
   
-    if (percentage < 30 || percentage > 40) {
+    if (cupcakePrice < minCost) {
       Swal.fire({
         title: 'Hmmm...',
         text: `Parece que no has logrado la utilidad esperada, ha sido del ${percentage}%. Intenta con un precio un poco más alto.`,
