@@ -33,14 +33,14 @@ export const Costs = () => {
     if (cupcakePrice < minCost) {
       Swal.fire({
         title: 'Hmmm...',
-        text: `Parece que no has logrado la utilidad esperada, ha sido del ${percentage}%. Intenta con un precio un poco más alto.`,
+        text: `Parece que no has logrado la utilidad esperada.`,
         icon: 'warning',
         allowOutsideClick: false
       });
     } else {
       Swal.fire({
         title: '¡Felicitaciones!',
-        text: `Has logrado una utilidad del ${percentage}%, tus ganancias han sido $${utility}`,
+        text: `Tus ganancias han sido $${utility}`,
         icon: 'success',
         confirmButtonText: 'Finalizar juego',
         allowOutsideClick: false
