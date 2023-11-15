@@ -21,7 +21,7 @@ module.exports = withMT({
       'cue-white': '#FAFAFAFA'
     },
     fontFamily: {
-      cocogoose: ["Cocogoose"],
+      cocogoose: ['Calibri', 'sans-serif'],
       calibri: ['Calibri', 'sans-serif'],
     },
     extend: {},
